@@ -1,0 +1,90 @@
+# ===============================
+
+# Node / Backend
+
+# ===============================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+.env
+.env.*
+!.env.example
+
+logs/
+*.log
+
+# ===============================
+
+# Build / Production
+
+# ===============================
+
+dist/
+build/
+out/
+.next/
+
+# ===============================
+
+# React / Vite
+
+# ===============================
+
+node_modules/
+dist/
+.vite/
+vite.config.ts.timestamp*
+
+# ===============================
+
+# OS Files
+
+# ===============================
+
+.DS_Store
+Thumbs.db
+
+# ===============================
+
+# IDE / Editor
+
+# ===============================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===============================
+
+# Testing
+
+# ===============================
+
+coverage/
+
+# ===============================
+
+# Runtime files
+
+# ===============================
+
+tmp/
+temp/
+*.pid
+*.seed
+*.pid.lock
+
+# ===============================
+
+# Database / uploads
+
+# ===============================
+
+uploads/
+*.sqlite
+*.dbs

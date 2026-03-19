@@ -1,10 +1,10 @@
 import express from 'express';
 import {ENV} from './lib/env.js';
 import path from 'path';
-// import {get} from '../node_modules/mongodb/src/utils';
+import { fileURLToPath } from 'url';
 const app = express ();
-
-const __dirname = path.resolve ();
+const {connectDB} = await import ('./lib/db.js');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use (express.json ());
 
@@ -25,8 +25,15 @@ if (ENV.NODE_ENV === 'production') {
   });
 }
 
-app.listen (ENV.PORT || 3000, () => {
-  console.log (
-    `Server is running on port http://localhost:${ENV.PORT || 3000}`
-  );
-});
+const startServer = async () => {
+  try {
+    await connectDB ();
+    app.listen (ENV.PORT, () => {
+      console.log (`Server running on port ${ENV.PORT}`);
+    }); 
+   
+  } catch (error) {
+    console.log ('Error', error);
+  }
+};
+startServer();

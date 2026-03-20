@@ -2,12 +2,16 @@ import express from 'express';
 import {ENV} from './lib/env.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import {serve} from '@inngest/express';
+import cors from "cors";
 const app = express();
 const {connectDB} = await import('./lib/db.js');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
+app.use(cors({origin: ENV.CLIENT_URL, credentials: true}));
+ 
+app.use('/api/inngest', serve({client:inngest, functions}));
 
 app.get('/books', (req, res) => {
   res.status(200).json({message: 'Hello World'});

@@ -2,7 +2,8 @@ import express from 'express';
 import {ENV} from './lib/env.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import {serve} from '@inngest/express';
+import {serve} from 'inngest/express';
+import { inngest, functions } from "./lib/inngest.js"
 import cors from "cors";
 const app = express();
 const {connectDB} = await import('./lib/db.js');

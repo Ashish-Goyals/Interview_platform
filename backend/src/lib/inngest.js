@@ -1,8 +1,48 @@
 import { Inngest } from 'inngest';
 import { connectDB } from './db.js';
 import User from '../models/Users.js';
+import { Webhook } from 'svix';
+import { ENV } from './env.js';
 
 export const inngest = new Inngest({ id: 'interview-platform' });
+
+// Webhook handler for Clerk events
+export const handleClerkWebhook = async (req) => {
+  const payload = req.body;
+  const headers = req.headers;
+
+  // Get webhook signing secret from environment
+  const secret = ENV.CLERK_WEBHOOK_SECRET;
+  if (!secret) {
+    throw new Error('CLERK_WEBHOOK_SECRET is not set');
+  }
+
+  // Verify and parse the webhook
+  const wh = new Webhook(secret);
+  let evt;
+  
+  try {
+    evt = wh.verify(JSON.stringify(payload), headers);
+  } catch (err) {
+    console.error('Webhook verification failed:', err);
+    throw new Error('Webhook verification failed');
+  }
+
+  // Send events to Inngest based on Clerk event type
+  if (evt.type === 'user.created') {
+    await inngest.send({
+      name: 'clerk/user.created',
+      data: evt.data,
+    });
+  } else if (evt.type === 'user.deleted') {
+    await inngest.send({
+      name: 'clerk/user.deleted',
+      data: evt.data,
+    });
+  }
+
+  return { success: true };
+};
 
 const syncUser = inngest.createFunction(
   { id: 'sync/user' },

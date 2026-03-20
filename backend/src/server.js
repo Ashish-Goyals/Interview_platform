@@ -3,7 +3,7 @@ import {ENV} from './lib/env.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {serve} from 'inngest/express';
-import { inngest, functions, handleClerkWebhook } from "./lib/inngest.js"
+import { inngest, functions } from "./lib/inngest.js"
 import cors from "cors";
 const app = express();
 const {connectDB} = await import('./lib/db.js');
@@ -12,17 +12,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.json());
 app.use(cors({origin: ENV.CLIENT_URL, credentials: true}));
  
-// Clerk webhook endpoint
-app.post('/api/webhooks/clerk', async (req, res) => {
-  try {
-    await handleClerkWebhook(req);
-    res.status(200).json({ success: true });
-  } catch (error) {
-    console.error('Webhook error:', error);
-    res.status(400).json({ error: error.message });
-  }
-});
-
 app.use('/api/inngest', serve({client:inngest, functions}));
 
 app.get('/books', (req, res) => {

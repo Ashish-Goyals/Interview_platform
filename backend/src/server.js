@@ -5,18 +5,29 @@ import { fileURLToPath } from 'url';
 import {serve} from 'inngest/express';
 import { inngest, functions } from "./lib/inngest.js"
 import cors from "cors";
+import { clerkMiddleware } from '@clerk/express'  
+import { protectRoute } from './middleware/protectRoute.js';
+import chatRoutes from './routes/chatRoutes.js';
+
+
+
+
 const app = express();
 const {connectDB} = await import('./lib/db.js');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
 app.use(cors({origin: ENV.CLIENT_URL, credentials: true}));
- 
+ app.use(clerkMiddleware());
 app.use('/api/inngest', serve({client:inngest, functions}));
-
+app.use('/api/chat', chatRoutes);
 app.get('/books', (req, res) => {
   res.status(200).json({message: 'Hello World'});
 });
+
+app.get('/video-calls',protectRoute,(req,res)=>{
+  res.status(200).json({message: 'This is a protected route'});
+})
 
 app.get('/api', (req, res) => {
   res.status(200).json({message: 'Hello from API'});

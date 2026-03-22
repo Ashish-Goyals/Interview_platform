@@ -8,7 +8,7 @@ import cors from "cors";
 import { clerkMiddleware } from '@clerk/express'  
 import { protectRoute } from './middleware/protectRoute.js';
 import chatRoutes from './routes/chatRoutes.js';
-
+import sessionRoutes from './routes/sessionRoutes.js';
 
 
 
@@ -23,13 +23,18 @@ app.use(cors({origin: ENV.CLIENT_URL, credentials: true}));
 
 app.use('/api/inngest', serve({client:inngest, functions}));
 app.use('/api/chat', chatRoutes);
+app.use('/api/sessions', sessionRoutes);
+
+
+
+
 app.get('/books', (req, res) => {
   res.status(200).json({message: 'Hello World'});
 });
 
 app.get('/video-calls', protectRoute, (req, res) => {
   try {
-    console.log('✅ Video calls route accessed by:', req.user.email);
+    console.log(' Video calls route accessed by:', req.user.email);
     res.status(200).json({
       message: 'Access granted to video calls',
       user: {
@@ -40,7 +45,7 @@ app.get('/video-calls', protectRoute, (req, res) => {
       },
     });
   } catch (error) {
-    console.error('❌ Error in video-calls route:', error);
+    console.error(' Error in video-calls route:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

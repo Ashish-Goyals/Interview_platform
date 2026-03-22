@@ -14,13 +14,13 @@
   "description": "",
   "dependencies": {
     "@clerk/express": "^1.7.41",
+    "@stream-io/node-sdk": "^0.7.12",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "inngest": "^3.22.0",
     "mongoose": "^9.3.0",
-    "stream-chat": "^9.24.0",
-    "svix": "^1.89.0"
+    "stream-chat": "^9.24.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

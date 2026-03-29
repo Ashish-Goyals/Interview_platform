@@ -1,35 +1,89 @@
-import './App.css';
-import {Routes, Route, Navigate} from 'react-router';
+import "./App.css";
+import { Routes, Route, Navigate } from "react-router";
+import { useUser } from "@clerk/react";
 
-import {useUser} from '@clerk/react';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ProblemsPage from './pages/ProblemsPage';
-import { Toaster } from 'react-hot-toast';
-function App () {
-  const {isSignedIn, isLoaded} = useUser ();
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ProblemsPage from "./pages/ProblemsPage";
+import DashboardPage from "./pages/DashboardPage";
+
+import { Toaster } from "react-hot-toast";
+
+function App() {
+  const { isSignedIn, isLoaded } = useUser();
 
   if (!isLoaded) return <div>Loading...</div>;
 
+  const routes = [
+    {
+      path: "/",
+      element: <HomePage />,
+      public: true,
+    },
+    {
+      path: "/dashboard",
+      element: <DashboardPage />,
+      protected: true,
+    },
+    {
+      path: "/about",
+      element: <AboutPage />,
+      public: true,
+    },
+    {
+      path: "/problems",
+      element: <ProblemsPage />,
+      protected: true,
+    },
+  ];
+
+  const ProtectedRoute = ({ children }) =>
+    isSignedIn ? children : <Navigate to="/" />;
+
+  const PublicRoute = ({ children }) =>
+    !isSignedIn ? children : <Navigate to="/dashboard" />;
+
   return (
     <>
-    <Routes>
+      <Routes>
+        {routes.map((route, index) => {
+          if (route.protected) {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <ProtectedRoute>{route.element}</ProtectedRoute>
+                }
+              />
+            );
+          }
 
-      <Route path="/" element={<HomePage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route
-        path="/problems"
-        element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
-      />
-    </Routes>
-    <Toaster  toastOptions={{duration:3000}} />
+          if (route.public) {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <PublicRoute>{route.element}</PublicRoute>
+                }
+              />
+            );
+          }
+
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={route.element}
+            />
+          );
+        })}
+      </Routes>
+
+      <Toaster toastOptions={{ duration: 3000 }} />
     </>
   );
 }
 
 export default App;
-
-
-//tw ,daisyui, react-router, clerk, react-hot-toast
-// todos: react-query aka tanstack-query, axios
-

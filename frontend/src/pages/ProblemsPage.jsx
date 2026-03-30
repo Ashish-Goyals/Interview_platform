@@ -1,19 +1,19 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
-import {PROBLEMS} from '../data/problems';
-import {Link} from 'react-router';
-import {Code2Icon, ChevronRightIcon} from 'lucide-react';
-import {getDifficultyBadgeClass} from '../lib/utils';
+import React from "react";
+import Navbar from "../components/Navbar";
+import { PROBLEMS } from "../data/problems";
+import { Link } from "react-router";
+import { Code2Icon, ChevronRightIcon } from "lucide-react";
+import { getDifficultyBadgeClass } from "../lib/utils";
 const ProblemsPage = () => {
-  const problems = Object.values (PROBLEMS);
-  const easyProblems = problems.filter (
-    problem => problem.difficulty === 'Easy'
+  const problems = Object.values(PROBLEMS);
+  const easyProblems = problems.filter(
+    (problem) => problem.difficulty === "Easy",
   ).length;
-  const mediumProblems = problems.filter (
-    problem => problem.difficulty === 'Medium'
+  const mediumProblems = problems.filter(
+    (problem) => problem.difficulty === "Medium",
   ).length;
-  const hardProblems = problems.filter (
-    problem => problem.difficulty === 'Hard'
+  const hardProblems = problems.filter(
+    (problem) => problem.difficulty === "Hard",
   ).length;
   return (
     <div className="min-h-screen bg-base-200">
@@ -30,9 +30,9 @@ const ProblemsPage = () => {
 
         {/* PROBLEMS LISt  */}
         <div className="space-y-4">
-          {problems.map (problem => (
+          {problems.map((problem) => (
             <Link
-              to={`/problems/${problem.id}`}
+              to={`/problem/${problem.id}`}
               key={problem.id}
               className="card bg-base-100 hover:scale-[1.01] transition-transform"
             >
@@ -41,17 +41,14 @@ const ProblemsPage = () => {
                   {/* LEFT SIDE  */}
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-
                       <div className="size-12 rounded-lg bg-primary/10 flex items-center justify-center ">
                         <Code2Icon className="size-6  text-primary" />
                       </div>
                       <div className="flex-1">
                         <div className="flex itmes-center gap-2 mb-1">
-                          <h2 className="text-xl font-bold">
-                            {problem.title}
-                          </h2>
+                          <h2 className="text-xl font-bold">{problem.title}</h2>
                           <span
-                            className={`badge ${getDifficultyBadgeClass (problem.difficulty)}`}
+                            className={`badge ${getDifficultyBadgeClass(problem.difficulty)}`}
                           >
                             {problem.difficulty}
                           </span>
@@ -77,7 +74,6 @@ const ProblemsPage = () => {
         </div>
         {/* STATS FOOTER  */}
         <div className="mt-12 card bg-base-100 shadow-lg">
-
           <div className="card-body">
             <div className="stats stats-vertical lg:stats-horizontal">
               <div className="stat">

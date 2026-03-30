@@ -40,7 +40,7 @@ export async function executeCode (language, code) {
         ],
       }),
     });
-    // c7e205ef2emsh0a0a11e85eb0e73p191a9fjsn76920661fb8b
+
     if (!response.ok) {
       const text = await response.text ();
       console.error ('API Error:', text);

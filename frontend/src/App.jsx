@@ -52,9 +52,7 @@ function App() {
               <Route
                 key={index}
                 path={route.path}
-                element={
-                  <ProtectedRoute>{route.element}</ProtectedRoute>
-                }
+                element={<ProtectedRoute>{route.element}</ProtectedRoute>}
               />
             );
           }
@@ -64,19 +62,13 @@ function App() {
               <Route
                 key={index}
                 path={route.path}
-                element={
-                  <PublicRoute>{route.element}</PublicRoute>
-                }
+                element={<PublicRoute>{route.element}</PublicRoute>}
               />
             );
           }
 
           return (
-            <Route
-              key={index}
-              path={route.path}
-              element={route.element}
-            />
+            <Route key={index} path={route.path} element={route.element} />
           );
         })}
       </Routes>

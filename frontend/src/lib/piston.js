@@ -1,11 +1,11 @@
 // Piston API is a service for code execution
 
-const PISTON_API = 'https://emkc.org/api/v2/piston';
+const PISTON_API = "https://emkc.org/api/v2/piston";
 
 const LANGUAGE_VERSIONS = {
-  javascript: {language: 'javascript', version: '18.15.0'},
-  python: {language: 'python', version: '3.10.0'},
-  java: {language: 'java', version: '15.0.2'},
+  javascript: { language: "javascript", version: "18.15.0" },
+  python: { language: "python", version: "3.10.0" },
+  java: { language: "java", version: "15.0.2" },
 };
 
 /**
@@ -13,7 +13,7 @@ const LANGUAGE_VERSIONS = {
  * @param {string} code - source code to executed
  * @returns {Promise<{success:boolean, output?:string, error?: string}>}
  */
-export async function executeCode (language, code) {
+export async function executeCode(language, code) {
   try {
     const languageConfig = LANGUAGE_VERSIONS[language];
 
@@ -24,17 +24,17 @@ export async function executeCode (language, code) {
       };
     }
 
-    const response = await fetch (`${PISTON_API}/execute`, {
-      method: 'POST',
+    const response = await fetch(`${PISTON_API}/execute`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify ({
+      body: JSON.stringify({
         language: languageConfig.language,
         version: languageConfig.version,
         files: [
           {
-            name: `main.${getFileExtension (language)}`,
+            name: `main.${getFileExtension(language)}`,
             content: code,
           },
         ],
@@ -42,8 +42,8 @@ export async function executeCode (language, code) {
     });
 
     if (!response.ok) {
-      const text = await response.text ();
-      console.error ('API Error:', text);
+      const text = await response.text();
+      console.error("API Error:", text);
 
       return {
         success: false,
@@ -51,10 +51,10 @@ export async function executeCode (language, code) {
       };
     }
 
-    const data = await response.json ();
+    const data = await response.json();
 
-    const output = data.run.output || '';
-    const stderr = data.run.stderr || '';
+    const output = data.run.output || "";
+    const stderr = data.run.stderr || "";
 
     if (stderr) {
       return {
@@ -66,7 +66,7 @@ export async function executeCode (language, code) {
 
     return {
       success: true,
-      output: output || 'No output',
+      output: output || "No output",
     };
   } catch (error) {
     return {
@@ -76,12 +76,12 @@ export async function executeCode (language, code) {
   }
 }
 
-function getFileExtension (language) {
+function getFileExtension(language) {
   const extensions = {
-    javascript: 'js',
-    python: 'py',
-    java: 'java',
+    javascript: "js",
+    python: "py",
+    java: "java",
   };
 
-  return extensions[language] || 'txt';
+  return extensions[language] || "txt";
 }

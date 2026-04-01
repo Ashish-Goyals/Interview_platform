@@ -15,7 +15,25 @@ const { connectDB } = await import("./lib/db.js");
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:5173",
+  "https://interview-platform-1-l9ik.onrender.com",
+  "https://interview-resume.onrender.com",
+  ENV.CLIENT_URL,
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true
+}));
 app.use(clerkMiddleware());
 
 app.use("/api/inngest", serve({ client: inngest, functions }));

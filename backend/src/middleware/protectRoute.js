@@ -6,7 +6,7 @@ export const protectRoute = [
   async (req, res, next) => {
     try {
       // Get userId from req.auth (without calling it as function)
-      const clerkId = req.auth.userId;
+      const clerkId = req.auth().userId;
 
       console.log(" protectRoute - Checking auth for:", clerkId);
 

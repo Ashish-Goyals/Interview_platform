@@ -8,7 +8,7 @@ import ProblemsPage from "./pages/ProblemsPage";
 import DashboardPage from "./pages/DashboardPage";
 import { Toaster } from "react-hot-toast";
 import ProblemPage from "./pages/ProblemPage";
-
+import SessionPage from "./pages/SessionPage";
 function App() {
   const { isSignedIn, isLoaded } = useUser();
 
@@ -38,6 +38,11 @@ function App() {
     {
       path: "/problem/:id",
       element: <ProblemPage />,
+      protected: true,
+    },
+    {
+      path: "/session/:id",
+      element: <SessionPage />,
       protected: true,
     },
   ];

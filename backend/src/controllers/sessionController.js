@@ -1,7 +1,12 @@
+
 import Session from '../models/Session.js';
 import {streamClient, chatClient} from '../lib/stream.js';
 
 export async function createSession (req, res) {
+import Session from "../models/Session.js";
+import {streamClient, chatClient} from '../lib/stream.js';
+export async function createSession(req, res) {
+
   try {
     const {problem, difficulty} = req.body;
     const userId = req.user._id;

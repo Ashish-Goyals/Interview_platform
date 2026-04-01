@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { requireAuth } from "@clerk/express";
 
 const sessionSchema = new mongoose.Schema(
   {
@@ -20,7 +19,6 @@ const sessionSchema = new mongoose.Schema(
     participant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      // required:true,
       default: null,
     },
     status: {
@@ -28,7 +26,7 @@ const sessionSchema = new mongoose.Schema(
       enum: ["active", "completed"],
       default: "active",
     },
-    callID: {
+    callId: {
       type: String,
       default: "",
     },

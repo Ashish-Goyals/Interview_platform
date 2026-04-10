@@ -12,7 +12,16 @@ import SessionPage from "./pages/SessionPage";
 function App() {
   const { isSignedIn, isLoaded } = useUser();
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) return (
+    <div className="min-h-screen bg-base-200 flex items-center justify-center">
+      <div className="text-center space-y-4">
+        <div className="flex justify-center">
+          <span className="loading loading-spinner loading-lg text-primary"></span>
+        </div>
+        <p className="text-base-content/60 text-sm font-medium">Loading...</p>
+      </div>
+    </div>
+  );
 
   const routes = [
     {
